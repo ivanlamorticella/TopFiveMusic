@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+ 
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<style>
+
+img {
+ 
+    width: 150px;
+}
+
+#title {
+    text-align: center;
+}
+
+</style>
+<script>
+    
+class album {
+ 
+    constructor(titolo, autore, anno, url) {
+ 
+        this.titolo = titolo
+        this.autore = autore
+        this.anno = anno
+        this.url = url
+    }
+}
+ 
+window.onload = gestoreLoad
+ 
+
+function gestoreLoad(){
+ 
+    albums = []
+    let b1 = new album ("From Zero", "Linkin Park", 2024, "https://m.media-amazon.com/images/I/71e8ZfalPVL._AC_UL320_.jpg")
+    let b2 = new album ("Papercuts", "Linkin Park", 2024, "https://m.media-amazon.com/images/I/71SXNRWw6YL._AC_UL320_.jpg")
+    let b3 = new album ("One More Light", "Linkin Park", 2017, "https://m.media-amazon.com/images/I/71QXwZkWdwL._AC_UL320_.jpg")
+    let b4 = new album ("The Hunting Party", "Linkin Park", 2014, "https://m.media-amazon.com/images/I/71t+4TJ6evL._AC_UL320_.jpg")
+    let b5 = new album ("RECHARGED", "Linkin Park", 2013, "https://m.media-amazon.com/images/I/71LiPpRKmhL._AC_UL320_.jpg")
+    albums.push(b1)
+    albums.push(b2)
+    albums.push(b3)
+    albums.push(b4)
+    albums.push(b5)
+    let nodoTab = document.getElementById("tab")
+    
+
+
+
+function rimuoviFigli (nodo) {
+    while (nodo.childNodes.length > 0) {
+    nodo.removeChild(nodo.firstChild);
+    }
+}
+
+
+
+function popolaTabella() {
+
+    rimuoviFigli(nodoTab)
+
+    for (let i = 0; i < albums.length; i++){
+        
+        let nodoTr = document.createElement("tr")
+        let nodoPos = document.createElement("td")
+        nodoPos.textContent = i+1
+        
+        let nodoTitolo = document.createElement("td")
+        nodoTitolo.textContent = albums[i].titolo
+        let nodoAutore = document.createElement("td")
+        nodoAutore.textContent = albums[i].autore
+        let nodoAnno = document.createElement("td")
+        nodoAnno.textContent = albums[i].anno
+        let nodoImg = document.createElement("td")
+        let img = document.createElement("img")
+        img.src = albums[i].url
+        nodoImg.appendChild(img)
+        nodoTr.appendChild(nodoPos)
+        nodoTr.appendChild(nodoTitolo)
+        nodoTr.appendChild(nodoAutore)
+        nodoTr.appendChild(nodoAnno)
+        nodoTr.appendChild(nodoImg)
+        nodoTab.appendChild(nodoTr)
+    }
+}
+
+
+
+popolaTabella()
+
+
+
+let nodoS1 = document.getElementById("select1")
+let nodoS2 = document.getElementById("select2")
+ 
+
+function popolaSelect(){
+
+    rimuoviFigli(nodoS1)
+    rimuoviFigli(nodoS2)
+ 
+    for (let i = 0; i < albums.length; i++) {
+    
+        let nodoOpt = document.createElement("option")
+        nodoOpt.value = i
+        nodoOpt.textContent =  "Pos: " + (i+1) + " " + albums[i].titolo
+    
+        let nodoOpt1 = document.createElement("option")
+        nodoOpt1.value = i
+        nodoOpt1.textContent =   "Pos: " + (i+1) + " " + albums[i].titolo
+    
+        nodoS1.appendChild(nodoOpt)
+        nodoS2.appendChild(nodoOpt1)
+    }
+ 
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+}
+ 
+
+
+popolaSelect()
+ 
+
+
+let btn = document.getElementById("btn")
+btn.onclick = cambia
+ 
+
+function cambia(){
+ 
+    let l1 = parseInt(document.getElementById("select1").value)
+    let l2 = parseInt(document.getElementById("select2").value)
+ 
+    let  album = albums[l2]
+ 
+    albums[l2] = albums[l1]
+ 
+    albums[l1] = album
+ 
+    popolaTabella()
+    popolaSelect()
+}
+
+
+
+function aggiungi(){
+
+    let titolo = document.getElementById("titolo").value
+    let autore = document.getElementById("autore").value
+    let anno = document.getElementById("anno").value
+    let url = document.getElementById("url").value
+    let posizione = document.getElementById("posizione").value
+    //alert(titolo+  autore + anno + url + posizione)
+    let l1 = new album(titolo, autore, anno, url)
+    albums[posizione-1] = l1
+    popolaTabella()
+    popolaSelect()
+}
+ 
+/*let scelta = 0
+do {
+    scelta = prompt("cosa vuoi fare: ")
+    if (scelta == 1) {
+ 
+        let titolo = prompt("Inserisci il titolo: ")
+        let autore = prompt("Inserisci l'autore: ")
+        let anno = prompt("Inserisci l'anno: ")
+        let b1 = new libro(titolo, autore, anno)
+        books.push(b1)
+    }
+    else if (scelta == 2) {
+        let trovato = false
+        let autore = prompt("Inserisci l'autore: ")
+        for (let i = 0; i < books.length; i++) {
+            if (autore == books[i].autore) {
+                console.log(books[i])
+                trovato = true
+            }
+        }
+     if (!trovato){
+         console.log("Autore non trovato")
+     }   
+ 
+ 
+    }
+    else if (scelta == 3){
+         for (let i = 0; i < books.length; i++) {
+            console.log(books[i])
+ 
+    }
+    }
+ 
+ 
+ 
+ 
+}
+ 
+while (scelta != 0)
+ 
+ 
+*/
+}
+</script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="title">Classifica</h1>
+        <div class="input-field col s12">
+            <select id = "select1">
+ 
+            </select>
+            <label>Seleziona la prima canzone</label>
+          </div>
+          <hr>
+          <div class="input-field col s12">
+            <select id = "select2">
+ 
+            </select>
+            <label>Seleziona la seconda canzone</label>
+          </div>
+ 
+          <button id = "btn">Cambia posizione</button>
+    <table>
+        <thead>
+          <tr>
+            <th>Posizione</th>
+              <th>Titolo</th>
+              <th>Autore</th>
+              <th>Anno di pubblicazione</th>
+              <th>Immagine</th>
+          </tr>
+        </thead>
+ 
+        <tbody id = "tab">
+ 
+        </tbody>
+    </table> 
+
+    <h3>
+        Aggiungi una canzone alla classifica
+    </h3>
+    Titolo:
+    <br>
+    <input type = "text" required id = "titolo">
+    <br>
+    Autore:
+    <br>
+    <input type = "text" required id = "autore">
+    <br>
+    Anno:
+    <br>
+    <input type = "text" required id = "anno">
+    <br>
+    Url:
+    <br>
+    
+    <input type = "text" required id = "url">
+    <br>
+    Posizione:
+    <br>
+    <input type = "number" required id = "posizione">
+    <br>
+    <button id = "btn1">Aggiungi</button>
+
+    </div>
+</body>
+</html>
